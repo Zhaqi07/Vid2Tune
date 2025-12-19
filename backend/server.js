@@ -11,6 +11,8 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 const CLOUDCONVERT_API_KEY = process.env.CLOUDCONVERT_API_KEY;
 const ASSEMBLYAI_API_KEY = process.env.ASSEMBLYAI_API_KEY;
+const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
+const INDEX_HTML = path.join(FRONTEND_DIR, "index.html");
 
 if (!CLOUDCONVERT_API_KEY || !ASSEMBLYAI_API_KEY) {
   console.warn(
@@ -23,6 +25,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(FRONTEND_DIR));
 
 const CLOUDCONVERT_BASE = "https://api.cloudconvert.com/v2";
 const ASSEMBLYAI_BASE = "https://api.assemblyai.com/v2";
@@ -180,7 +183,13 @@ app.post("/api/audio-to-text", upload.single("file"), async (req, res) => {
   }
 });
 
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api") || req.method !== "GET") {
+    return next();
+  }
+  res.sendFile(INDEX_HTML);
+});
+
 app.listen(PORT, () => {
   console.log(`Vid2Tune backend running on http://localhost:${PORT}`);
 });
-

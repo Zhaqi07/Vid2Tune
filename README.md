@@ -45,10 +45,11 @@ Frontend disajikan sebagai halaman statis (Tailwind CDN + JavaScript murni). Bac
    ASSEMBLYAI_API_KEY=token_assemblyai_kamu
    PORT=4000
    ```
-3. Jalankan backend:
+3. Jalankan backend (sekaligus melayani frontend statis):
    ```bash
    npm run start
    ```
+   Buka `http://localhost:4000` di browser untuk langsung memakai aplikasi.
    Backend tersedia di `http://localhost:4000` dengan endpoint:
    - `POST /api/video-to-audio`: menerima field `file` (video).
    - `POST /api/audio-to-text`: menerima field `file` (audio).
@@ -60,14 +61,7 @@ Frontend disajikan sebagai halaman statis (Tailwind CDN + JavaScript murni). Bac
 ## 4. Menjalankan Frontend Lokal
 
 1. Buka tab terminal baru (backend tetap berjalan).
-2. Layani folder root secara statis, misalnya:
-   ```bash
-   cd ..
-   npx serve
-   ```
-   atau pakai Live Server / http-server / Python `python -m http.server`.
-3. Buka URL yang diberikan (biasanya `http://localhost:3000`).  
-   `script.js` otomatis memanggil API backend `http://localhost:4000`. Jika backend ada di domain lain, set global `window.VID2TUNE_API_BASE` sebelum memasukkan `script.js` di `index.html`.
+2. (Opsional) Bila ingin memisahkan frontend dan backend, layani folder root secara statis, misalnya `npx serve`. Saat mode ini, pastikan backend tetap berjalan di `http://localhost:4000`. Jika backend ada di domain lain, set global `window.VID2TUNE_API_BASE` sebelum memasukkan `script.js` di `index.html`.
 
 ---
 
